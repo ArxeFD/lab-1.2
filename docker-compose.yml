@@ -7,6 +7,13 @@ services:
       - "8888:8888"
     volumes:
       - ./jupyter_notebooks:/home/jovyan/work
+      - ./scripts:/home/jovyan/scripts
+    environment:
+
+      - SPARK_HOME=/opt/spark
+      - PYSPARK_DRIVER_PYTHON=jupyter
+      - PYSPARK_DRIVER_PYTHON_OPTS=notebook
+      - SPARK_MASTER=spark://spark-master:7077
     depends_on:
       - spark-master
 
@@ -35,8 +42,10 @@ services:
     image: bitnami/spark:3.4
     ports:
       - "8080:8080"
+      - "7077:7077"
     environment:
       - SPARK_MODE=master
+      - SPARK_HOME=/opt/spark
 
 volumes:
   pg_data:
